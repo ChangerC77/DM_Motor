@@ -1,0 +1,10 @@
+motor:
+  port: /dev/ttyACM0
+  baudrate: 115200
+  slave_id: 1
+  master_id: 2
+calibration:
+  closed_position: 3.210688829421997
+  open_position: 0.2798428233712912
+  closed_value: 0
+  open_value: 255

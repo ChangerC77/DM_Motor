@@ -1,7 +1,9 @@
 from DM_motor_class import *
+import yaml
+import argparse
 
-def main():
-    motor = DamiaoMotor(port='/dev/ttyACM0', slave_id=0x01, master_id=0x02)
+def main(args):
+    motor = DamiaoMotor(port=args.port, slave_id=args.slave_id, master_id=args.master_id)
     try:
         while True:
             motor.control_pos_force(target_pos=2.94, speed=100, torque_limit=400.0)
@@ -14,4 +16,18 @@ def main():
         motor.close()
         
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', type=str, default='config/config.yaml', help='YAML file path')
+    parser.add_argument('--port', type=str, default='/dev/ttyACM0')
+    parser.add_argument('--baudrate', type=str, default='115200')
+    parser.add_argument('--slave_id', type=str, default='0x01')
+    parser.add_argument('--master_id', type=str, default='0x02')
+    args = parser.parse_args()
+
+    with open(args.config, 'r', encoding='utf-8') as f:
+        config = yaml.safe_load(f)
+        args.port = config['motor']['port']
+        args.baudrate = config['motor']['baudrate']
+        args.slave_id = config['motor']['slave_id']
+        args.master_id = config['motor']['master_id']
+    main(args)
