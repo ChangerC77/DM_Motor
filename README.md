@@ -93,6 +93,23 @@ GH1.25 3pin 线连接电机 3pin 线接口。
 | - | <img src="img/15.png" alt="USB2CAN product image" width="220"> | 1 | [淘宝链接](https://item.taobao.com/item.htm?id=708938197611) |
 
 ## 电机控制
+### 端口授权
+```
+cd DM_Motor
+sudo chmod 777 setup_tty_acm.sh
+./setup_tty_acm.sh
+```
+output
+```
+❯ ./setup_tty_acm.sh 
+Found serial port(s):
+crwxrwxrwx 1 root dialout 166, 0 May 28 00:44 /dev/ttyACM0
+
+Setting permission: sudo chmod 777 /dev/ttyACM0
+[sudo] password for ubuntu2204: 
+Done:
+crwxrwxrwx 1 root dialout 166, 0 May 28 00:44 /dev/ttyACM0
+```
 
 ### 示教模式
 
