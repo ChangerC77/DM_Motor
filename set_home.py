@@ -5,11 +5,8 @@ import argparse
 def main(args):
     motor = DamiaoMotor(port=args.port, slave_id=args.slave_id, master_id=args.master_id)
     try:
-        while True:
-            motor.control_pos_force(target_pos=0.13, speed=100, torque_limit=400.0)
-            time.sleep(3)
-            motor.control_pos_force(target_pos=-2.9, speed=100, torque_limit=400.0)
-            time.sleep(3)
+        motor.set_zero_position()
+        print("zero position set")
     except KeyboardInterrupt:
         print("\n motor stoped")
     finally:

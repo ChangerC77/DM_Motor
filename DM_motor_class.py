@@ -32,6 +32,10 @@ class DamiaoMotor:
         current_torque = self.Motor1.getTorque()
         return current_torque
 
+    def set_zero_position(self):
+        self.MotorControl1.set_zero_position(self.Motor1)
+        time.sleep(0.1)
+
     def control_pos_force(self, target_pos, speed, torque_limit):
         # 确保当前在 Torque_Pos 模式
         if self.Motor1.NowControlMode != Control_Type.Torque_Pos:

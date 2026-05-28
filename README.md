@@ -2,7 +2,7 @@
 
 达妙电机（DM Motor）硬件连接、线材购买与 Python 控制例程说明。
 
-## 目录
+## 1. 目录
 
 - [参考资料](#参考资料)
 - [硬件清单](#硬件清单)
@@ -11,7 +11,7 @@
 - [电机控制](#电机控制)
 - [文件说明](#文件说明)
 
-## 参考资料
+## 2. 参考资料
 
 | 类型 | 链接 |
 | :--- | :--- |
@@ -22,13 +22,13 @@
 | Python 例程 | [DM_Motor_Test.py](https://gitee.com/kit-miao/motor-control-routine/blob/master/Python%E4%BE%8B%E7%A8%8B/u2can/DM_Motor_Test.py) |
 | DM-J4310-2EC | [Gitee 仓库](https://gitee.com/kit-miao/DM-J4310-2EC) |
 
-## 硬件清单
+## 3. 硬件清单
 
 <p align="center">
   <img src="img/1.png" alt="DM Motor hardware overview" width="720">
 </p>
 
-### 标准套装
+### 3.1 标准套装
 
 | 部件 | 数量 |
 | :--- | :---: |
@@ -36,7 +36,7 @@
 | XT30 2+2 单端线 | 1 |
 | GH1.25 3pin 线 | 1 |
 
-### 初学者套装
+### 3.2 初学者套装
 
 | 套装图片 | 线材细节 |
 | :---: | :---: |
@@ -51,9 +51,9 @@
 | 电源转接板 | 1 |
 | USB2CAN 模块 | 1 |
 
-## 电机连接
+## 4. 电机连接
 
-### XT30 2+2 单端线
+### 4.1 XT30 2+2 单端线
 
 <p align="center">
   <img src="img/4.png" alt="XT30 2+2 cable connection" width="520">
@@ -61,7 +61,7 @@
 
 将 XT30 2+2 单端线插入电机对应接口。43 系列电机有 2 个电机接口，任选其一即可。单端线中的两根细线是 CAN 线。
 
-### GH1.25 3pin 线
+### 4.2 GH1.25 3pin 线
 
 GH1.25 3pin 线连接电机 3pin 线接口。
 
@@ -69,7 +69,7 @@ GH1.25 3pin 线连接电机 3pin 线接口。
 | :---: | :---: |
 | <img src="img/5.png" alt="GH1.25 3pin connector position" width="360"> | <img src="img/6.png" alt="GH1.25 3pin wiring detail" width="360"> |
 
-### USB2CAN 连接
+### 4.3 USB2CAN 连接
 
 把 Type-C 线连接到 USB2CAN 模块，另一端连接电脑。
 
@@ -77,13 +77,13 @@ GH1.25 3pin 线连接电机 3pin 线接口。
   <img src="img/7.png" alt="USB2CAN module connection" width="560">
 </p>
 
-### 完整连接
+### 4.4 完整连接
 
 <p align="center">
   <img src="img/8.png" alt="Complete motor connection" width="720">
 </p>
 
-## 线材购买
+## 5. 线材购买
 
 | 部件 | 选项 | 数量 | 链接 |
 | :---: | :---: | :---: | :--- |
@@ -92,8 +92,31 @@ GH1.25 3pin 线连接电机 3pin 线接口。
 | <img src="img/13.png" alt="Cable product image" width="220"> | <img src="img/14.png" alt="Cable option" width="120"> | 1 | [淘宝链接](https://e.tb.cn/h.isxcw5zOA6DnWG0?tk=8ZrZ5j3lKcg) |
 | - | <img src="img/15.png" alt="USB2CAN product image" width="220"> | 1 | [淘宝链接](https://item.taobao.com/item.htm?id=708938197611) |
 
-## 电机控制
-### 端口授权
+## 6. Download
+```
+git clone https://github.com/ChangerC77/DM_Motor.git
+```
+## 7. Conda Setup 
+```bash
+cd DM_Motor
+conda create -n dm_motor python=3.10 -y
+conda activate dm_motor
+pip install -r requirements.txt
+```
+
+## 8. Motor Control
+
+### 文件说明
+
+| 文件 | 说明 |
+| :--- | :--- |
+| `DM_CAN.py` | DM Motor 官方控制库 |
+| `DM_motor_example.py` | DM Motor 官方控制示例 |
+| `DM_motor_class.py` | DM Motor class 封装库 |
+| `motor_control.py` | 电机控制入口 |
+| `motor_teach.py` | 示教模式入口 |
+
+### 8.1 端口授权
 ```
 cd DM_Motor
 sudo chmod 777 setup_tty_acm.sh
@@ -110,27 +133,50 @@ Setting permission: sudo chmod 777 /dev/ttyACM0
 Done:
 crwxrwxrwx 1 root dialout 166, 0 May 28 00:44 /dev/ttyACM0
 ```
+### 8.2 home calibration
 
-### 示教模式
+把电机放在希望零点的位置，然后标定后，零点的示数为0.0 rad
+```
+cd DM_Motor
+python set_home.py
+```
+output
+```
+Serial port is open
+successfully switch to Torque_Pos mode
+enable motor ...
+zero position set
+motor stopped
+```
+
+### 8.3 teach mode 
+
+使用示教来检测零点是否标定成功
 
 ```bash
 cd DM_Motor
 python motor_teach.py
 ```
+output
+```
+❯ python motor_teach.py 
+Serial port is open
+successfully switch to Torque_Pos mode
+enable motor ...
 
+👉 teach mode
+```
 ### 电机控制模式
 
 ```bash
 cd DM_Motor
 python motor_control.py
 ```
+output
+```
+Serial port is open
+successfully switch to Torque_Pos mode
+enable motor ...
+```
 
-## 文件说明
 
-| 文件 | 说明 |
-| :--- | :--- |
-| `DM_CAN.py` | DM Motor 官方控制库 |
-| `DM_motor_example.py` | DM Motor 官方控制示例 |
-| `DM_motor_class.py` | DM Motor class 封装库 |
-| `motor_control.py` | 电机控制入口 |
-| `motor_teach.py` | 示教模式入口 |
